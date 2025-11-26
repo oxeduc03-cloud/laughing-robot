@@ -4,25 +4,95 @@
     <meta charset="UTF-8">
     <title>Reclama tu premio</title>
     <style>
-        body { font-family: Arial; text-align: center; padding-top: 60px; }
-        #warning { color: red; font-weight: bold; margin-top: 30px; display:none; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            text-align: center;
+            padding-top: 40px;
+        }
+
+        .card {
+            background: white;
+            width: 350px;
+            margin: auto;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+        }
+
+        input {
+            padding: 10px;
+            width: 90%;
+            margin-top: 10px;
+        }
+
+        button {
+            padding: 10px;
+            width: 95%;
+            margin-top: 15px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        #advertencia {
+            display: none;
+            margin-top: 20px;
+            color: red;
+            font-weight: bold;
+        }
+
+        #timer {
+            color: red;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
     </style>
 </head>
 <body>
 
-    <h1>🎉 ¡Felicidades! Has ganado un premio 🎉</h1>
-    <p>Para reclamarlo, inicia sesión con tu cuenta.</p>
+    <div class="card" id="fake-login">
+        <h2>🎁 ¡Has sido seleccionado!</h2>
+        <p>Reclama tu premio exclusivo antes de que expire.</p>
 
-    <button onclick="mostrarAlerta()">Continuar</button>
+        <p id="timer">Tu premio expira en <span id="time">05:00</span></p>
 
-    <p id="warning">⚠️ Esto es una demostración educativa.  
-    Los enlaces sospechosos pueden robar tus datos reales.</p>
+        <input type="text" placeholder="Correo electrónico">
+        <input type="password" placeholder="Contraseña">
+        <button onclick="mostrarAlerta()">Iniciar sesión</button>
+    </div>
+
+    <p id="advertencia">
+        ⚠️ ESTA ES UNA DEMOSTRACIÓN EDUCATIVA.<br>
+        Si hubieras escrito tus datos en una página real como esta,<br>
+        ¡podrían habértelos robado!
+    </p>
 
     <script>
+        // Temporizador falso de 5 minutos
+        let time = 300;
+        const timerDisplay = document.getElementById("time");
+
+        setInterval(() => {
+            if (time > 0) {
+                time--;
+                let minutes = String(Math.floor(time / 60)).padStart(2, '0');
+                let seconds = String(time % 60).padStart(2, '0');
+                timerDisplay.textContent = `${minutes}:${seconds}`;
+            }
+        }, 1000);
+
         function mostrarAlerta() {
-            document.getElementById("warning").style.display = "block";
+            document.getElementById("fake-login").style.display = "none";
+            document.getElementById("advertencia").style.display = "block";
         }
     </script>
 
 </body>
 </html>
+
+
+   
