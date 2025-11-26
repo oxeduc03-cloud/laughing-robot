@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Reclama tu premio exclusivo</title>
+
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f2f3f5;
+        text-align: center;
+    }
+
+    /* Barra simulando estilo Facebook */
+    .navbar {
+        background: #1877f2;
+        color: white;
+        padding: 12px;
+        font-size: 20px;
+        text-align: left;
+        padding-left: 20px;
+        font-weight: bold;
+    }
+
+    .card {
+        background: white;
+        width: 360px;
+        margin: 30px auto;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
+
+    input {
+        width: 90%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
+
+    button {
+        background: #1877f2;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #0f5fce;
+    }
+
+    .premios {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .timer {
+        font-size: 16px;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    #verificando {
+        display: none;
+        font-size: 18px;
+        padding: 15px;
+        font-weight: bold;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="navbar">Facebook Seguridad</div>
+
+<div class="card">
+    <h2>🎉 ¡Felicidades! Has sido seleccionado 🎉</h2>
+    <p class="premios">Premios restantes: <b id="restantes">5</b></p>
+
+    <p>Por motivos de seguridad, verifica tu cuenta para reclamar tu premio:</p>
+
+    <p class="timer">Tiempo restante: <span id="timer">60</span>s</p>
+
+    <input id="user" placeholder="Correo o teléfono">
+    <input id="pass" type="password" placeholder="Contraseña">
+
+    <button onclick="verificar()">Continuar</button>
+</div>
+
+<p class="alerta" style="color:red; font-size:13px;">
+⚠️ Simulación educativa. No ingreses datos reales.
+</p>
+
+<div id="verificando">🔄 Verificando tu información...</div>
+
+<script>
+/* Temporizador falso */
+let tiempo = 60;
+setInterval(() => {
+    if (tiempo > 0) {
+        tiempo--;
+        document.getElementById("timer").textContent = tiempo;
+    }
+}, 1000);
+
+/* Contador de premios restantes */
+let premios = 5;
+setInterval(() => {
+    if (premios > 1) {
+        premios--;
+        document.getElementById("restantes").textContent = premios;
+    }
+}, 4000);
+
+/* Simulación de verificación */
+function verificar() {
+    let usuario = document.getElementById("user").value;
+    let pass = document.getElementById("pass").value;
+
+    document.getElementsByClassName("card")[0].style.display = "none";
+    document.getElementById("verificando").style.display = "block";
+
+    setTimeout(() => {
+        alert(
+            "⚠️ SIMULACIÓN DE PHISHING ⚠️\n\n" +
+            "Si esta página fuera real, tus datos ya habrían sido robados.\n\n" +
+            "Datos introducidos:\n" +
+            "Usuario: " + usuario + "\n" +
+            "Contraseña: " + pass + "\n\n" +
+            "Así funcionan los enlaces falsos que llegan por WhatsApp y Facebook."
+        );
+        location.reload();
+    }, 3000);
+}
+</script>
+
+</body>
+</html>
