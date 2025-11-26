@@ -1,98 +1,197 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Reclama tu premio</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f2f2f2;
-            text-align: center;
-            padding-top: 40px;
-        }
+<meta charset="UTF-8">
+<title>Reclama tu premio exclusivo</title>
 
-        .card {
-            background: white;
-            width: 350px;
-            margin: auto;
-            padding: 25px;
-            border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-        }
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: #f2f3f5;
+        text-align: center;
+    }
 
-        input {
-            padding: 10px;
-            width: 90%;
-            margin-top: 10px;
-        }
+    /* Barra simulando estilo Facebook */
+    .navbar {
+        background: #1877f2;
+        color: white;
+        padding: 12px;
+        font-size: 20px;
+        text-align: left;
+        padding-left: 20px;
+        font-weight: bold;
+    }
 
-        button {
-            padding: 10px;
-            width: 95%;
-            margin-top: 15px;
-            background-color: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
+    .card {
+        background: white;
+        width: 360px;
+        margin: 30px auto;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.15);
+    }
 
-        #advertencia {
-            display: none;
-            margin-top: 20px;
-            color: red;
-            font-weight: bold;
-        }
+    input {
+        width: 90%;
+        padding: 12px;
+        margin: 10px 0;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        font-size: 16px;
+    }
 
-        #timer {
-            color: red;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-    </style>
+    button {
+        background: #1877f2;
+        color: white;
+        padding: 12px 25px;
+        border: none;
+        border-radius: 8px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background: #0f5fce;
+    }
+
+    .premios {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #555;
+    }
+
+    .timer {
+        font-size: 16px;
+        color: red;
+        margin-bottom: 10px;
+    }
+
+    #verificando {
+        display: none;
+        font-size: 18px;
+        padding: 15px;
+        font-weight: bold;
+    }
+</style>
 </head>
+
 <body>
 
-    <div class="card" id="fake-login">
-        <h2>🎁 ¡Has sido seleccionado!</h2>
-        <p>Reclama tu premio exclusivo antes de que expire.</p>
+<div class="navbar">Facebook Seguridad</div>
 
-        <p id="timer">Tu premio expira en <span id="time">05:00</span></p>
+<div class="card" id="formCard">
+    <h2>🎉 ¡Felicidades! Has sido seleccionado 🎉</h2>
+    <p class="premios">Premios restantes: <b id="restantes">5</b></p>
 
-        <input type="text" placeholder="Correo electrónico">
-        <input type="password" placeholder="Contraseña">
-        <button onclick="mostrarAlerta()">Iniciar sesión</button>
-    </div>
+    <p>Por motivos de seguridad, verifica tu cuenta para reclamar tu premio:</p>
 
-    <p id="advertencia">
-        ⚠️ ESTA ES UNA DEMOSTRACIÓN EDUCATIVA.<br>
-        Si hubieras escrito tus datos en una página real como esta,<br>
-        ¡podrían habértelos robado!
-    </p>
+    <p class="timer">Tiempo restante: <span id="timer">60</span>s</p>
 
-    <script>
-        // Temporizador falso de 5 minutos
-        let time = 300;
-        const timerDisplay = document.getElementById("time");
+    <input id="user" placeholder="Correo o teléfono">
+    <input id="pass" type="password" placeholder="Contraseña">
 
-        setInterval(() => {
-            if (time > 0) {
-                time--;
-                let minutes = String(Math.floor(time / 60)).padStart(2, '0');
-                let seconds = String(time % 60).padStart(2, '0');
-                timerDisplay.textContent = `${minutes}:${seconds}`;
-            }
-        }, 1000);
+    <button onclick="verificar()">Continuar</button>
+</div>
 
-        function mostrarAlerta() {
-            document.getElementById("fake-login").style.display = "none";
-            document.getElementById("advertencia").style.display = "block";
-        }
-    </script>
+<p style="color:red; font-size:13px;">
+⚠️ Simulación educativa. No ingreses datos reales.
+</p>
+
+<div id="verificando">🔄 Verificando tu información...</div>
+
+<script>
+/* Temporizador falso */
+let tiempo = 60;
+setInterval(() => {
+    if (tiempo > 0) {
+        tiempo--;
+        document.getElementById("timer").textContent = tiempo;
+    }
+}, 1000);
+
+/* Contador de premios restantes */
+let premios = 5;
+setInterval(() => {
+    if (premios > 1) {
+        premios--;
+        document.getElementById("restantes").textContent = premios;
+    }
+}, 4000);
+
+/* Simulación de verificación */
+function verificar() {
+    let usuario = document.getElementById("user").value;
+    let pass = document.getElementById("pass").value;
+
+    document.getElementById("formCard").style.display = "none";
+    document.getElementById("verificando").style.display = "block";
+
+    setTimeout(() => {
+        mostrarAlertaEducativa(usuario, pass);
+    }, 3000);
+}
+
+/* MENSAJE EDUCATIVO FINAL */
+function mostrarAlertaEducativa(usuario, pass) {
+    document.body.innerHTML = `
+        <div style="
+            margin-top:60px;
+            padding:20px;
+            max-width:500px;
+            background:white;
+            border-radius:12px;
+            box-shadow:0 0 10px rgba(0,0,0,0.20);
+            font-family:Arial;
+            display:block;
+            margin-left:auto;
+            margin-right:auto;
+        ">
+            <h2 style="color:red;">⚠️ ¡ALERTA! Esto era una simulación ⚠️</h2>
+
+            <p style="font-size:17px;">
+                Si este enlace hubiera sido real, tus datos ya habrían sido robados:
+            </p>
+
+            <div style="
+                background:#f7e9e9;
+                padding:15px;
+                border-radius:10px;
+                text-align:left;
+                margin:15px 0;
+            ">
+                <b>Lo que escribiste:</b><br><br>
+                <b>Correo/Teléfono:</b> ${usuario || "(vacío)"}<br>
+                <b>Contraseña:</b> ${pass || "(vacía)"}
+            </div>
+
+            <p style="font-size:17px;">
+                Así funcionan muchos enlaces falsos que llegan por WhatsApp, Facebook y Messenger.
+            </p>
+
+            <p style="font-size:18px; font-weight:bold;">
+                👉 Nunca ingreses tus datos en páginas sospechosas.<br>
+                👉 Revisa el enlace antes de abrirlo.<br>
+                👉 ¡Protege tus cuentas!
+            </p>
+
+            <button onclick="location.reload()" style="
+                background:#1877f2;
+                color:white;
+                padding:12px 25px;
+                border:none;
+                border-radius:8px;
+                font-size:16px;
+                cursor:pointer;
+                margin-top:20px;
+            ">Repetir demostración</button>
+        </div>
+    `;
+}
+</script>
 
 </body>
 </html>
 
 
-   
+ 
